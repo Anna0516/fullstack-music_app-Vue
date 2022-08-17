@@ -94,6 +94,7 @@
             v-show="tab === 'register'"
             :validation-schema="schema"
             @submit="register"
+            :initial-values="userData"
           >
             <!-- Name -->
             <div class="mb-3">
@@ -165,9 +166,11 @@
                 name="country"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
               >
+                <option value="Sweden">Sweden</option>
                 <option value="USA">USA</option>
                 <option value="Mexico">Mexico</option>
                 <option value="Germany">Germany</option>
+
                 <option value="Antarctica">Antarctica</option>
               </vee-field>
               <ErrorMessage class="text-red-600" name="country" />
@@ -210,9 +213,12 @@ export default {
         email: "required|min:3|max:100|email",
         age: "required|min_value:18|max_value:110",
         password: "required|min:9|max:100|excluded:password",
-        confirm_password: "confirmed:@password",
-        country: "required|excluded:Antarctica",
-        tos: "required",
+        confirm_password: "passwords_mismatch:@password",
+        country: "required|country_excluded:Antarctica",
+        tos: "tos",
+      },
+      userData: {
+        country: "Sweden",
       },
     };
   },
