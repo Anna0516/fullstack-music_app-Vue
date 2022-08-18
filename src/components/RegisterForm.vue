@@ -123,7 +123,6 @@ export default {
         country: "required|country_excluded:Antarctica",
         tos: "tos",
       },
-
       userData: {
         country: "Sweden",
       },
@@ -134,7 +133,7 @@ export default {
     };
   },
   methods: {
-    register(values: boolean | string) {
+    register(values: string | boolean) {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alert_variant = "bg-blue-500";
