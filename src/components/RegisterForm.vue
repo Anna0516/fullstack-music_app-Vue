@@ -70,6 +70,19 @@
       />
       <ErrorMessage class="text-red-600" name="confirm_password" />
     </div>
+    <!-- Role -->
+    <div class="mb-3">
+      <label class="inline-block mb-2">Who are you?</label>
+      <vee-field
+        as="select"
+        name="role"
+        class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+      >
+        <option value="artist">Artist</option>
+        <option value="music lover">Music lover</option>
+      </vee-field>
+      <ErrorMessage class="text-red-600" name="role" />
+    </div>
     <!-- Country -->
     <div class="mb-3">
       <label class="inline-block mb-2">Country</label>
@@ -109,7 +122,7 @@
 </template>
 
 <script lang="ts">
-import firebase from "@/includes/firebase";
+import { auth, usersCollection } from "@/includes/firebase";
 
 export default {
   name: "RegisterForm",
@@ -122,6 +135,7 @@ export default {
         age: "required|min_value:18|max_value:110",
         password: "required|min:9|max:100|excluded:password",
         confirm_password: "passwords_mismatch:@password",
+        role: "required",
         country: "required|country_excluded:Antarctica",
         tos: "tos",
       },
@@ -144,9 +158,25 @@ export default {
       let userCred = null;
 
       try {
-        userCred = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(values.email, values.password);
+        userCred = await auth.createUserWithEmailAndPassword(
+          values.email,
+          values.password
+        );
+      } catch (error) {
+        this.reg_in_submission = false;
+        this.reg_alert_variant = "bg-red-500";
+        this.reg_alert_msg =
+          "An unexpected error occured. Please try again later.";
+        return;
+      }
+      try {
+        await usersCollection.add({
+          name: values.name,
+          email: values.email,
+          age: values.age,
+          role: values.role,
+          country: values.country,
+        });
       } catch (error) {
         this.reg_in_submission = false;
         this.reg_alert_variant = "bg-red-500";
