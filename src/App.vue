@@ -273,11 +273,13 @@
 <script lang="ts">
 import AppHeader from "@/components/AppHeader.vue";
 import AppAuth from "@/components/AppAuth.vue";
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "App",
   components: {
     AppHeader,
     AppAuth,
   },
-};
+});
 </script>

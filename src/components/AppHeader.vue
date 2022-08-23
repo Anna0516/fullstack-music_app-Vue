@@ -26,8 +26,9 @@
 <script lang="ts">
 import { mapStores } from "pinia";
 import useModalStore from "@/stores/modal";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   name: "AppHeader",
   computed: {
     ...mapStores(useModalStore),
@@ -38,5 +39,5 @@ export default {
       console.log((this as any).modalStore.isOpen);
     },
   },
-};
+});
 </script>
